@@ -45,7 +45,7 @@ function sendConfig(payload) {
   const httpOptions = {
     host: CONFIG_SERVER_HOST,
     port: CONFIG_SERVER_PORT,
-    path: '',
+    path: '/',
     protocol: 'http',
     method: 'POST',
     headers: {
