@@ -4,7 +4,7 @@ const http = require('http');
 const SSID = 'RisingStack';
 const PASSWORD = 'classlessFreedom!';
 const PORT = 8000;
-const HOST = '';
+const HOST = '192.168.0.60';
 
 const BUTTON = NodeMCU.D1;
 
