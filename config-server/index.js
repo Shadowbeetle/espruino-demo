@@ -1,28 +1,55 @@
 const http = require('http');
 
+PORT = process.env.PORT || 8080;
+let serverNetworkConfig;
+
 const server = http.createServer((req, res) => {
+  console.log(`Got ${req.method} request`);
+  switch (req.method) {
+    case 'POST':
+      return onPostIP(req, res);
+    case 'GET':
+      return onGetIP(req, res);
+    default:
+      return res.writeHead(400, 'method not allowed');
+  }
+});
+
+function onPostIP(req, res) {
   let data = '';
   console.log(`got ${req.method} request`);
-
-  if (req.method === 'GET') {
-    return res.end();
-  }
 
   req.on('data', (chunk) => {
     data += chunk;
   });
 
   req.on('end', () => {
-    let body;
     try {
-      body = JSON.parse(data);
-    } catch {
-      body = data;
+      serverNetworkConfig = JSON.parse(data);
+      console.log(serverNetworkConfig);
+    } catch (err) {
+      console.error({ err, data });
     }
-    console.log(body); // 'Buy the milk'
     res.writeHead(200);
-    res.end();
+    return res.end();
   });
-});
+}
 
-server.listen(8000);
+function onGetIP(req, res) {
+  const { ip } = serverNetworkConfig;
+  if (ip) {
+    res.writeHead(200);
+    return res.end(ip);
+  } else {
+    res.writeHead(500);
+    res.end();
+  }
+}
+
+server.listen(8080, (err) => {
+  if (err) {
+    throw err;
+  }
+
+  console.log(`Server is listening at ${PORT}`);
+});
