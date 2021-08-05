@@ -68,6 +68,8 @@ function getConfig() {
         console.log('CONFIG SERVER REQEST ENDED WITHOUT ERROR>', !hadError);
         console.log('CONFIG SERVER RESPONSE>', data);
         console.log(res.statusCode, res.statusMessage);
+
+        host = data;
       });
 
       res.on('error', (err) =>
