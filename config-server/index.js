@@ -45,9 +45,9 @@ function onPostIP(req, res) {
 }
 
 function onGetIP(req, res) {
-  if (!serverNetworkConfig.ip) {
+  if (!serverNetworkConfig || !serverNetworkConfig.ip) {
     res.writeHead(204);
-    res.end();
+    return res.end();
   }
 
   const { ip } = serverNetworkConfig;
@@ -56,7 +56,7 @@ function onGetIP(req, res) {
     return res.end(ip);
   } else {
     res.writeHead(500);
-    res.end();
+    return res.end();
   }
 }
 
