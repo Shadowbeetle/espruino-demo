@@ -1,7 +1,7 @@
 const http = require('http');
 
 PORT = process.env.PORT || 8080;
-let serverNetworkConfig;
+let serverNetworkConfig = { ip: null };
 
 const server = http.createServer((req, res) => {
   console.log(`Got ${req.method} request`);
@@ -24,19 +24,33 @@ function onPostIP(req, res) {
   });
 
   req.on('end', () => {
+    let body;
     try {
-      serverNetworkConfig = JSON.parse(data);
-      console.log(serverNetworkConfig);
+      body = JSON.parse(data);
+      if (!body.ip) {
+        console.error('Missing ip', body);
+        res.writeHead(400);
+        return res.end('Missing ip');
+      }
+      console.log(body);
     } catch (err) {
       console.error({ err, data });
+      res.writeHead(500);
+      return res.end();
     }
+    serverNetworkConfig = body;
     res.writeHead(200);
     return res.end();
   });
 }
 
 function onGetIP(req, res) {
-  const ip = serverNetworkConfig.ip;
+  if (!serverNetworkConfig.ip) {
+    res.writeHead(204);
+    res.end();
+  }
+
+  const { ip } = serverNetworkConfig;
   if (ip) {
     res.writeHead(200);
     return res.end(ip);
