@@ -11,7 +11,7 @@ const server = http.createServer((req, res) => {
     case 'GET':
       return onGetIP(req, res);
     default:
-      return res.writeHead(400, 'method not allowed');
+      return res.writeHead(405, 'Method not allowed');
   }
 });
 
