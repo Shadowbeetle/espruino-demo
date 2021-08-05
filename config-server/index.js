@@ -46,7 +46,7 @@ function onGetIP(req, res) {
   }
 }
 
-server.listen(8080, (err) => {
+server.listen(PORT, (err) => {
   if (err) {
     throw err;
   }
