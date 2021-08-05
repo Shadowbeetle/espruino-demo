@@ -4,6 +4,7 @@ PORT = process.env.PORT || 8080;
 let serverNetworkConfig = { ip: null };
 
 const server = http.createServer((req, res) => {
+  console.log(req);
   console.log(`Got ${req.method} request`);
   switch (req.method) {
     case 'POST':
