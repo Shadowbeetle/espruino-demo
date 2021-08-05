@@ -36,7 +36,7 @@ function onPostIP(req, res) {
 }
 
 function onGetIP(req, res) {
-  const { ip } = serverNetworkConfig;
+  const ip = serverNetworkConfig.ip;
   if (ip) {
     res.writeHead(200);
     return res.end(ip);
