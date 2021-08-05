@@ -6,8 +6,9 @@ const PASSWORD = 'classlessFreedom!';
 const PORT = 8000;
 const LED = NodeMCU.D1;
 
-const CONFIG_SERVER_HOST = '192.168.0.34';
-const CONFIG_SERVER_PORT = 8000;
+const CONFIG_SERVER_HOST = 'espruino-demo-config-server.herokuapp.com';
+const CONFIG_SERVER_PROTOCOL = 'https';
+const CONFIG_SERVER_PORT = 0;
 
 LED.mode('output');
 
@@ -44,9 +45,9 @@ function handleRequest(req, res) {
 function sendConfig(payload) {
   const httpOptions = {
     host: CONFIG_SERVER_HOST,
-    port: CONFIG_SERVER_PORT,
+    port: CONFIG_SERVER_PORT ? CONFIG_SERVER_PORT : undefined,
     path: '/',
-    protocol: 'http',
+    protocol: CONFIG_SERVER_PROTOCOL,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
